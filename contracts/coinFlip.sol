@@ -5,11 +5,20 @@ import "@chainlink/contracts/src/v0.8/vrf/VRFV2WrapperConsumerBase.sol";
 event CoinFlipRequest(uint256 requestId);
 event CoinFlipResult(uint256 requestId, bool didWin);
 
+struct CoinFlipStatus {
+  uint256 randomWord;
+  address player;
+  bool didWin;
+  CoinFlipSelection choice;
+}
+
 contract CoinFlip {
     enum ConFlipSelection {
         HEADS,
         TAILS
     }
 
-    function flip(ConFlipSelection choice) external payable returns (uint256) {}
+    mapping(uint256 => CoinFlipStatus) public statuses;
+
+    function flip(CoinFlipSelection choice) external payable returns (uint256) {}
 }
