@@ -44,7 +44,25 @@ contract CoinFlip {
         player: msg.sender,
         didWin: false,
         fulfilled: false, 
-        choice: choice 
+        choice1: choice1 
       });
+
+      emit CoinFlipRequest(requestId);
+      return requestId;
+    }
+
+    function fulfillRandomWords(uint requestId1, uint[] memory randomWors) internal ovverride {
+       statuses[requestId1].fulfilled = true;
+       statuses[requestId1].randomWord = randomWord[0];
+       CoinFlipSelection result = CoinFlipSelection.HEADS;
+       if (randomWord1 [0] % 2 ==0){
+        result = CoinFlipSelection.TAILS;
+       }
+
+       if(statuses[requestId1].choice == reslut){
+        statuses[requestId1].didWin = true;
+        payalbe(statuses[request1].player).transfer(entryFees * 2);
+       }
+       emit CoinFlipResult(requestId1, statuses[request1].didWin);
     }
 }
