@@ -29,7 +29,7 @@ contract CoinFlip {
     uint32 constant numWords = 1;
     uint16 constant requestConfirmations = 3;
 
-    constructor() VRF2WrapperConsumerBase(linkAddress, vrfWrapperAddress){}
+    constructor() payable VRF2WrapperConsumerBase(linkAddress, vrfWrapperAddress){}
 
     function flip(CoinFlipSelection choice) external payable returns (uint256) {
       require(msg.value == entryFees, "Entry fees not sent");
@@ -64,5 +64,10 @@ contract CoinFlip {
         payalbe(statuses[request1].player).transfer(entryFees * 2);
        }
        emit CoinFlipResult(requestId1, statuses[request1].didWin);
+    }
+
+
+    function getStatus(uint request1) public view returns(CoinFlipStatus memory){
+      return statuses[request1];
     }
 }
