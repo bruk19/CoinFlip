@@ -9,6 +9,7 @@ struct CoinFlipStatus {
   uint256 randomWord;
   address player;
   bool didWin;
+  bool fulfilled;
   CoinFlipSelection choice;
 }
 
@@ -37,5 +38,13 @@ contract CoinFlip {
         requestConfirmations,
         numWords
       );
+      statuses[requestId]= coinFlipStatus ({
+        fees: VRF_V2_WRAPPER.calcuatedReqestPrie(callbackGasLimit),
+        rendomWord: 0,
+        player: msg.sender,
+        didWin: false,
+        fulfilled: false, 
+        choice: choice 
+      });
     }
 }
