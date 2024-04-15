@@ -23,12 +23,19 @@ contract CoinFlip {
     address constant linkAddress = 0x779877A7B0D9E8603169DdbD7836e478b4624789;
     address constant vrfWrapperAddress = 0x8103B0A8A00be2DDC778e6e7eaa21791Cd364625;
 
-    uint128 constant entryFess = 0.001 ether;
+    uint128 constant entryFees = 0.001 ether;
     uint32 constant callbackGasLimit = 1_000_000;
     uint32 constant numWords = 1;
     uint16 constant requestConfirmations = 3;
 
-    function flip(CoinFlipSelection choice) external payable returns (uint256) {
+    constructor() VRF2WrapperConsumerBase(linkAddress, vrfWrapperAddress){}
 
+    function flip(CoinFlipSelection choice) external payable returns (uint256) {
+      require(msg.value == entryFees, "Entry fees not sent");
+      uint256 requisedId = requestRandomness (
+        callbackGasLimit,
+        requestConfirmations,
+        numWords
+      );
     }
 }
